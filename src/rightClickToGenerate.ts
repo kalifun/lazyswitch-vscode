@@ -1,27 +1,28 @@
 import * as vscode from 'vscode';
-import { FileToGo } from './conversion';
+import { FileToGo,PreprocessingFile } from './conversion';
 import {ConvertFromType} from './conversion';
 
-const jsonFileToGo = new FileToGo(ConvertFromType.Json);
-const yamlFileToGo = new FileToGo(ConvertFromType.Yaml);
+const jsonFileToGo = new PreprocessingFile(ConvertFromType.Json);
+const yamlFileToGo = new PreprocessingFile(ConvertFromType.Yaml);
 
 export async function rightClickYamlToGenerate(uri: vscode.Uri) {
     if (!uri) {
-        uri = getActiveTextUri()
+        // uri = getActiveTextUri();
+        vscode.window.showWarningMessage("Cannot get the user-provided path");
     }
 
-    await yamlFileToGo.readFile([uri])
+    await yamlFileToGo.GetDataInfo(uri);
 
 }
 
 
 export async function rightClickJsonToGenerate(uri: vscode.Uri) {
     if (!uri) {
-        uri = getActiveTextUri()
+        // uri = getActiveTextUri()
+        vscode.window.showWarningMessage("Cannot get the user-provided path");
+    }else{
+        await jsonFileToGo.GetDataInfo(uri);
     }
-
-    await jsonFileToGo.readFile([uri])
-
 }
 
 function getActiveTextUri() {

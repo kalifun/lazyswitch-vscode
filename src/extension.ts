@@ -15,6 +15,3 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('lazyswitch-vscode.jsongengo',rightClickJsonToGenerate),
 	);
 }
-
-// this method is called when your extension is deactivated
-export function deactivate() {}
