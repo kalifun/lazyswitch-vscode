@@ -14,7 +14,7 @@ When you write code, you often need to generate Go code from a configuration fil
 
 ### 0.1.0
 
-- [x] files to GO code.
+- [x] files to GO code.  
 
 -----------------------------------------------------------------------------------------------------------
 ## Thank you

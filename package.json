@@ -1,11 +1,17 @@
 {
-	"name": "lazyswitch-vscode",
-	"displayName": "lazyswitch-vscode",
+	"name": "lazyswitch",
+	"displayName": "lazyswitch",
 	"description": "I don't want to write too many structs",
-	"version": "0.0.1",
+	"version": "0.1.1",
+	"icon": "images/icon.png",
+	"publisher": "kalifun",
 	"engines": {
 		"vscode": "^1.56.0"
 	},
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/kalifun/lazyswitch-vscode"
+    },
 	"categories": [
 		"Other"
 	],
