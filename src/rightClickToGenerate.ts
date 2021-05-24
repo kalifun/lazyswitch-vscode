@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { FileToGo,PreprocessingFile } from './conversion';
+import { PreprocessingFile } from './conversion';
 import {ConvertFromType} from './conversion';
 
 const jsonFileToGo = new PreprocessingFile(ConvertFromType.Json);
