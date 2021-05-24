@@ -2,7 +2,8 @@
 	"name": "lazyswitch-vscode",
 	"displayName": "lazyswitch-vscode",
 	"description": "I don't want to write too many structs",
-	"version": "0.0.1",
+	"version": "0.1.0",
+	"icon": "images/icon.png",
 	"engines": {
 		"vscode": "^1.56.0"
 	},
