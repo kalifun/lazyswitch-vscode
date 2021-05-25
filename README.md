@@ -12,9 +12,15 @@ When you write code, you often need to generate Go code from a configuration fil
 
 ## Release Notes
 
-### 0.1.0
+### 0.1.1
 
 - [x] files to GO code.  
+
+### 0.1.2
+
+- [x] json to yaml.
+- [x] yaml to json.
+
 
 -----------------------------------------------------------------------------------------------------------
 ## Thank you

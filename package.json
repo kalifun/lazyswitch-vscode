@@ -2,7 +2,7 @@
 	"name": "lazyswitch",
 	"displayName": "lazyswitch",
 	"description": "I don't want to write too many structs",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"icon": "images/icon.png",
 	"publisher": "kalifun",
 	"engines": {
