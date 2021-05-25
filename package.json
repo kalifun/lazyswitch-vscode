@@ -24,7 +24,9 @@
 	],
 	"activationEvents": [
 		"onCommand:lazyswitch-vscode.yamlgengo",
-		"onCommand:lazyswitch-vscode.jsongengo"
+		"onCommand:lazyswitch-vscode.jsongengo",
+		"onCommand:lazyswitch-vscode.jsontoyaml",
+		"onCommand:lazyswitch-vscode.yamltojson"
 	],
 	"keywords": [
 		"coversion",
@@ -42,6 +44,14 @@
 			{
 				"command": "lazyswitch-vscode.jsongengo",
 				"title": "Generate the JSON into GO code"
+			},
+			{
+				"command": "lazyswitch-vscode.jsontoyaml",
+				"title": "Json To Yaml"
+			},
+			{
+				"command": "lazyswitch-vscode.yamltojson",
+				"title": "Yaml To Json"
 			}
 		],
 		"menus": {
@@ -55,6 +65,16 @@
 					"when": "resourceExtname == .json",
 					"command": "lazyswitch-vscode.jsongengo",
 					"group": "6_test"
+				},
+				{
+					"when": "resourceExtname == .json",
+					"command": "lazyswitch-vscode.jsontoyaml",
+					"group": "6_test"
+				},
+				{
+					"when": "resourceExtname == .yaml",
+					"command": "lazyswitch-vscode.yamltojson",
+					"group": "6_test"
 				}
 			],
 			"editor/context": [
@@ -66,6 +86,16 @@
 				{
 					"when": "resourceExtname == .json",
 					"command": "lazyswitch-vscode.jsongengo",
+					"group": "6_test"
+				},
+				{
+					"when": "resourceExtname == .json",
+					"command": "lazyswitch-vscode.jsontoyaml",
+					"group": "6_test"
+				},
+				{
+					"when": "resourceExtname == .yaml",
+					"command": "lazyswitch-vscode.yamltojson",
 					"group": "6_test"
 				}
 			]

@@ -1,5 +1,7 @@
-import * as vscode from 'vscode';
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as path from 'path';
+import * as YAML from 'yaml';
+import * as vscode from 'vscode';
 import { getJsonFromYaml,getJsonFromJson } from './helpers';
 import {
     quicktype,
@@ -15,6 +17,7 @@ import {
     inferenceFlagNames,
 	GoTargetLanguage,
 } from "quicktype-core";
+import { YAMLError } from 'yaml/util';
 
 type ConvertedFile = {
 	oldFileUri: vscode.Uri;
@@ -22,18 +25,30 @@ type ConvertedFile = {
 	// newFileUri: vscode.Uri;
 };
 
-const GenFileSuffix = ".go"
+const GenFileSuffix = ".go";
 
 export enum ConvertFromType {
 	Yaml = 'YAML',
 	Json = 'JSON'
-}
+};
 
 type TargetLanguagePick = {
     cancelled: boolean;
     lang: TargetLanguage;
 };
 
+
+export enum ConversionType {
+    JsonToYaml = 1,
+    YamlToJson = 2,
+    YamlOrJsonToCode = 3,
+}
+
+
+enum ConversionTypeSuffix {
+    JsonToYaml = ".yaml",
+    YamlToJson = ".json"
+}
 
 async function getTargetLanguage(): Promise<TargetLanguagePick> {
     return {cancelled: false, lang: languageNamed("go")!};
@@ -45,55 +60,65 @@ export class PreprocessingFile {
 		this.convertFromType = convertFromType;
 	}
 
-
-	public async GetDataInfo(uri: vscode.Uri) {
-
-		const oldFileContent = await vscode.workspace.fs.readFile(uri);
-		const oldFileExtension = path.extname(uri.fsPath);
-		console.log(oldFileExtension);
-		if (oldFileExtension != ".json" && oldFileExtension != ".yaml") {
+    public async FileTypeConversion(uri: vscode.Uri, option: ConversionType) {
+        const oldFileContent = await vscode.workspace.fs.readFile(uri);
+        const oldFileExtension = path.extname(uri.fsPath);
+        if (oldFileExtension !== ".json" && oldFileExtension !== ".yaml") {
 			vscode.window.showWarningMessage("Please select JSON, YAML files!");
-			return
+			return;
 		}
-
-		const workerSpace = path.dirname(uri.fsPath);
+        const workerSpace = path.dirname(uri.fsPath);
 		let splitPath = workerSpace.split(path.sep);
 		let currentPath = splitPath[splitPath.length-1];
 		let fileName: string;
 		const fn = await GenerateFileName();
 		if (fn.cancelled) {
+            vscode.window.showWarningMessage("Cancelled generation!");
 			return;
 		}		
-		fileName = fn.name;
-		const newFilePath = workerSpace + path.format({root: path.sep,name: fileName,ext: GenFileSuffix})
-		var setting: vscode.Uri = vscode.Uri.parse("untitled:" + newFilePath);
-		const language = await getTargetLanguage();
-		const fileData = this.readFile(oldFileContent.toString());
-		let result: SerializedRenderResult;
-		let indentation: string;
-		indentation = "\t";
-		try {
-			result = await runQuicktype(fileData, "json", language.lang, "TestName", false, indentation, []);
-		}catch (e) {
-			vscode.window.showErrorMessage(e);
-        	return;
-		}
-		const text = result.lines.join("\n");
-		vscode.workspace.openTextDocument(setting).then((a: vscode.TextDocument) => {
-			vscode.window.showTextDocument(a, 1, false).then(e => {
-				e.edit(edit => {
-					edit.insert(new vscode.Position(0, 0), "package "+ currentPath + "\n\n" + text);
-				});
-			});
-		}, (error: any) => {
-			console.error(error);
-			// debugger;
-			vscode.window.showErrorMessage(error.toString());
+		fileName = fn.name.replace(" ","");
+        if (fileName === "" || fileName === undefined || fileName === null) {
+            vscode.window.showWarningMessage("Please enter the correct file name!");
 			return;
-		});
-
-	}
-
+        }
+        let fileData: string;
+        let extra: string = "";
+        fileData = this.readFile(oldFileContent.toString());
+        let newFilePath = workerSpace;
+        
+        switch (option) {
+            case ConversionType.JsonToYaml:
+                let t = JSON.parse(fileData);
+                const doc = new YAML.Document();
+                doc.contents = t;
+                fileData = doc.toString();
+                newFilePath += path.format({root: path.sep,name: fileName,ext: ConversionTypeSuffix.JsonToYaml});
+                break;
+            case ConversionType.YamlToJson:
+                newFilePath += path.format({root: path.sep,name: fileName,ext: ConversionTypeSuffix.YamlToJson});
+                break;
+            case ConversionType.YamlOrJsonToCode:
+                newFilePath += path.format({root: path.sep,name: fileName,ext: GenFileSuffix});
+                const language = await getTargetLanguage();
+                let result: SerializedRenderResult;
+                let indentation: string;
+                indentation = "\t";
+                try {
+                    result = await runQuicktype(fileData, "json", language.lang, fileName.toUpperCase(), false, indentation, []);
+                }catch (e) {
+                    vscode.window.showErrorMessage(e.toString());
+                    return;
+                }
+                fileData = result.lines.join("\n");
+                extra = "package "+ currentPath + "\n\n";
+                break;
+            default:
+                vscode.window.showErrorMessage("The selected mode is wrong!");
+                return;
+        }
+        var setting: vscode.Uri = vscode.Uri.parse("untitled:" + newFilePath);
+        this.CreateNewFile(setting,fileData,extra);
+    }
 
 	private readFile(file: string): string {
 		let fileData: any;
@@ -101,7 +126,7 @@ export class PreprocessingFile {
 		switch (this.convertFromType) {
 			case 'YAML':
 				tempData = getJsonFromYaml(file);
-				console.log(tempData);
+				// console.log(tempData);
 				fileData = tempData;
 				break;
 			case 'JSON':
@@ -112,6 +137,21 @@ export class PreprocessingFile {
 		}
 		return fileData.toString();
 	}
+
+    private CreateNewFile(uri: vscode.Uri,context: string,extension: string) {
+        vscode.workspace.openTextDocument(uri).then((a: vscode.TextDocument) => {
+			vscode.window.showTextDocument(a, 1, false).then(e => {
+				e.edit(edit => {
+					edit.insert(new vscode.Position(0, 0), extension + context);
+				});
+			});
+		}, (error: any) => {
+			console.error(error);
+			// debugger;
+			vscode.window.showErrorMessage(error.toString());
+			return;
+		});
+    }
 
 }
 
