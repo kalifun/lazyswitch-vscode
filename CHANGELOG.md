@@ -7,3 +7,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 
 - Initial release
+
+## Release Notes
+
+### 0.1.1
+
+- [x] files to GO code.  
+
+### 0.1.2
+
+- [x] json to yaml.
+- [x] yaml to json.
