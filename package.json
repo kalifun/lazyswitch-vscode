@@ -1,132 +1,150 @@
 {
-	"name": "lazyswitch",
-	"displayName": "lazyswitch",
-	"description": "I don't want to write too many structs",
-	"version": "0.1.2",
-	"icon": "images/icon.png",
-	"publisher": "kalifun",
-	"engines": {
-		"vscode": "^1.56.0"
-	},
-	"repository": {
+    "name": "lazyswitch",
+    "displayName": "lazyswitch",
+    "description": "I don't want to write too many structs",
+    "version": "0.1.2",
+    "icon": "images/icon.png",
+    "publisher": "kalifun",
+    "engines": {
+        "vscode": "^1.56.0"
+    },
+    "repository": {
         "type": "git",
         "url": "https://github.com/kalifun/lazyswitch-vscode"
     },
-	"categories": [
-		"Other"
-	],
-	"contributors": [
-		{
-			"name": "kalifun",
-			"email": "kalifun@163.com",
-			"url": "https://github.com/kalifun"
-		}
-	],
-	"activationEvents": [
-		"onCommand:lazyswitch-vscode.yamlgengo",
-		"onCommand:lazyswitch-vscode.jsongengo",
-		"onCommand:lazyswitch-vscode.jsontoyaml",
-		"onCommand:lazyswitch-vscode.yamltojson"
-	],
-	"keywords": [
-		"coversion",
-		"yaml to go",
-		"json to go",
-		"struct"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "lazyswitch-vscode.yamlgengo",
-				"title": "Generate the YAML into GO code"
-			},
-			{
-				"command": "lazyswitch-vscode.jsongengo",
-				"title": "Generate the JSON into GO code"
-			},
-			{
-				"command": "lazyswitch-vscode.jsontoyaml",
-				"title": "Json To Yaml"
-			},
-			{
-				"command": "lazyswitch-vscode.yamltojson",
-				"title": "Yaml To Json"
-			}
-		],
-		"menus": {
-			"explorer/context": [
-				{
-					"when": "resourceExtname == .yaml",
-					"command": "lazyswitch-vscode.yamlgengo",
-					"group": "6_test"
-				},
-				{
-					"when": "resourceExtname == .json",
-					"command": "lazyswitch-vscode.jsongengo",
-					"group": "6_test"
-				},
-				{
-					"when": "resourceExtname == .json",
-					"command": "lazyswitch-vscode.jsontoyaml",
-					"group": "6_test"
-				},
-				{
-					"when": "resourceExtname == .yaml",
-					"command": "lazyswitch-vscode.yamltojson",
-					"group": "6_test"
-				}
-			],
-			"editor/context": [
-				{
-					"when": "resourceExtname == .yaml",
-					"command": "lazyswitch-vscode.yamlgengo",
-					"group": "6_test"
-				},
-				{
-					"when": "resourceExtname == .json",
-					"command": "lazyswitch-vscode.jsongengo",
-					"group": "6_test"
-				},
-				{
-					"when": "resourceExtname == .json",
-					"command": "lazyswitch-vscode.jsontoyaml",
-					"group": "6_test"
-				},
-				{
-					"when": "resourceExtname == .yaml",
-					"command": "lazyswitch-vscode.yamltojson",
-					"group": "6_test"
-				}
-			]
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "yarn run compile && yarn run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.3",
-		"@types/lodash": "^4.14.169",
-		"@types/mocha": "^8.0.4",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.56.0",
-		"@types/yaml": "1.9.7",
-		"@typescript-eslint/eslint-plugin": "^4.14.1",
-		"@typescript-eslint/parser": "^4.14.1",
-		"eslint": "^7.19.0",
-		"glob": "^7.1.6",
-		"mocha": "^8.2.1",
-		"typescript": "^4.1.3",
-		"vscode-test": "^1.5.0"
-	},
-	"dependencies": {
-		"lodash": "^4.17.21",
-		"quicktype-core": "^6.0.52",
-		"tslint": "^6.1.3"
-	}
+    "categories": [
+        "Other"
+    ],
+    "contributors": [
+        {
+            "name": "kalifun",
+            "email": "kalifun@163.com",
+            "url": "https://github.com/kalifun"
+        }
+    ],
+    "activationEvents": [
+        "onCommand:lazyswitch-vscode.yamlgengo",
+        "onCommand:lazyswitch-vscode.jsongengo",
+        "onCommand:lazyswitch-vscode.jsontoyaml",
+        "onCommand:lazyswitch-vscode.yamltojson",
+        "onCommand:lazyswitch-vscode.beautifyjson"
+    ],
+    "keywords": [
+        "coversion",
+        "yaml to go",
+        "json to go",
+        "struct"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "lazyswitch-vscode.yamlgengo",
+                "title": "Generate the YAML into GO code"
+            },
+            {
+                "command": "lazyswitch-vscode.jsongengo",
+                "title": "Generate the JSON into GO code"
+            },
+            {
+                "command": "lazyswitch-vscode.jsontoyaml",
+                "title": "Json To Yaml"
+            },
+            {
+                "command": "lazyswitch-vscode.yamltojson",
+                "title": "Yaml To Json"
+            },
+            {
+                "command": "lazyswitch-vscode.beautifyjson",
+                "title": "Beautify Json"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "resourceExtname == .yaml",
+                    "command": "lazyswitch-vscode.yamlgengo",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .json",
+                    "command": "lazyswitch-vscode.jsongengo",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .json",
+                    "command": "lazyswitch-vscode.jsontoyaml",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .yaml",
+                    "command": "lazyswitch-vscode.yamltojson",
+                    "group": "6_test"
+                }
+            ],
+            "editor/context": [
+                {
+                    "when": "resourceExtname == .yaml",
+                    "command": "lazyswitch-vscode.yamlgengo",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .json",
+                    "command": "lazyswitch-vscode.jsongengo",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .json",
+                    "command": "lazyswitch-vscode.jsontoyaml",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .yaml",
+                    "command": "lazyswitch-vscode.yamltojson",
+                    "group": "6_test"
+                },
+                {
+                    "when": "resourceExtname == .json",
+                    "command": "lazyswitch-vscode.beautifyjson",
+                    "group": "6_test"
+                }
+            ]
+        },
+        "keybindings": [
+            {
+                "command": "lazyswitch-vscode.beautifyjson",
+                "key": "ctrl+alt+e",
+				"mac": "cmd+e",
+				"when": "resourceExtname == .json"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "yarn run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "yarn run compile && yarn run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.3",
+        "@types/lodash": "^4.14.169",
+        "@types/mocha": "^8.0.4",
+        "@types/node": "^12.11.7",
+        "@types/vscode": "^1.56.0",
+        "@types/yaml": "1.9.7",
+        "@typescript-eslint/eslint-plugin": "^4.14.1",
+        "@typescript-eslint/parser": "^4.14.1",
+        "eslint": "^7.19.0",
+        "glob": "^7.1.6",
+        "mocha": "^8.2.1",
+        "typescript": "^4.1.3",
+        "vscode-test": "^1.5.0"
+    },
+    "dependencies": {
+        "lodash": "^4.17.21",
+        "quicktype-core": "^6.0.52",
+        "tslint": "^6.1.3"
+    }
 }
