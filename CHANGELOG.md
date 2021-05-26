@@ -1,8 +1,19 @@
 # Change Log
 
-All notable changes to the "lazyswitch-vscode" extension will be documented in this file.
+You can use key combinations.  
+### Beautify Json
+#### Win
+`Ctrl` +  `Alt`  + `M`  
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+#### Mac
+`Cmd` + `Option` + `M`  
+
+### Compressed Json
+#### Win
+`Alt`  + `M`  
+
+#### Mac
+`Option` + `M`
 
 ## [Unreleased]
 
@@ -18,3 +29,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - [x] json to yaml.
 - [x] yaml to json.
+
+### 0.1.3
+
+- [x] Beautify Json.
+- [x] Compressed Json.  

@@ -8,7 +8,24 @@ When you write code, you often need to generate Go code from a configuration fil
 
 ## Features
 
-`LazySwitch` is an updated version of `QuickType`. Thanks again. We currently only support Go code. More features will be added later.
+`LazySwitch` is an updated version of `QuickType`. Thanks again. We currently only support Go code. More features will be added later.  
+
+
+You can use key combinations.  
+### * Beautify Json
+#### Win
+`Ctrl` +  `Alt`  + `M`  
+
+#### Mac
+`Cmd` + `Option` + `M`  
+
+### * Compressed Json
+#### Win
+`Alt`  + `M`  
+
+#### Mac
+`Option` + `M`  
+
 
 ## Release Notes
 
@@ -21,6 +38,10 @@ When you write code, you often need to generate Go code from a configuration fil
 - [x] json to yaml.
 - [x] yaml to json.
 
+### 0.1.3
+
+- [x] Beautify Json.
+- [x] Compressed Json.  
 
 -----------------------------------------------------------------------------------------------------------
 ## Thank you
