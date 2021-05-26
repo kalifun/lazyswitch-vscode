@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import { BeautifyJson, PreprocessingFile } from './conversion';
+import { BeautifyOrCompressedJson, PreprocessingFile } from './conversion';
 import {ConvertFromType,ConversionType} from './conversion';
 
 const jsonFileToGo = new PreprocessingFile(ConvertFromType.Json);
 const yamlFileToGo = new PreprocessingFile(ConvertFromType.Yaml);
 const jsonFileToYaml = new PreprocessingFile(ConvertFromType.Json);
 const yamlFileToJson = new PreprocessingFile(ConvertFromType.Yaml);
-const beautifyjson = new BeautifyJson();
+const beautifyjson = new BeautifyOrCompressedJson();
 
 export async function rightClickYamlToGenerate(uri: vscode.Uri) {
     if (!uri) {
@@ -53,7 +53,16 @@ export async function rightClickBeautifyJson(editor: vscode.TextEditor) {
         // uri = getActiveTextUri()
         vscode.window.showWarningMessage("Failed to get live window!");
     }else{
-        await beautifyjson.CaptureContent(editor);
+        await beautifyjson.CaptureContent(editor,ConversionType.BeautifyJson);
+    }
+}
+
+export async function rightClickCompressedJson(editor: vscode.TextEditor) {
+    if (!editor) {
+        // uri = getActiveTextUri()
+        vscode.window.showWarningMessage("Failed to get live window!");
+    }else{
+        await beautifyjson.CaptureContent(editor,ConversionType.CompressedJson);
     }
 }
 

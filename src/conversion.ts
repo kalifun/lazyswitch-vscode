@@ -42,6 +42,8 @@ export enum ConversionType {
     JsonToYaml = 1,
     YamlToJson = 2,
     YamlOrJsonToCode = 3,
+    BeautifyJson = 4,
+    CompressedJson = 5,
 }
 
 
@@ -243,11 +245,12 @@ async function GenerateFileName(): Promise<{ cancelled: boolean; name: string }>
     };
 }
 
-export class BeautifyJson {
+
+export class BeautifyOrCompressedJson {
     /**
      * Read the text being edited
      */
-    public async CaptureContent(editor: vscode.TextEditor) {
+    public async CaptureContent(editor: vscode.TextEditor,option: ConversionType) {
         // Get the document
         let doc = editor.document;
         // let text = doc.getText();
@@ -260,24 +263,45 @@ export class BeautifyJson {
             vscode.window.showWarningMessage("Please enter valid JSON!");
             return;
         }
-        // Beautify JSON
-        let beautifiedJson = this.beautify(
-            trimmedText,
-            // tabs vs spaces
-            editor.options.insertSpaces ? editor.options.tabSize : "\t"
-        );
 
-        if (beautifiedJson !== trimmedText) {
+        let processedText = "";
+        switch (option) {
+            case ConversionType.BeautifyJson:
+                // Beautify JSON
+                let beautifiedJson = this.beautify(
+                    trimmedText,
+                    // tabs vs spaces
+                    editor.options.insertSpaces ? editor.options.tabSize : "\t"
+                );
+                processedText = beautifiedJson;
+                break;
+            case ConversionType.CompressedJson:
+                // let f = JSON.stringify(trimmedText,null,"");
+                // let replaceText = f.replace(/\\r\\n/g,"").replace(/\s/g,"").replace(/\\/g,"");
+                // processedText = replaceText.trim().replace('"',"");
+                // break;
+                let f = trimmedText.replace(/\\r\\n/g,"").replace(/\s/g,"").replace(/\\/g,"");
+                // console.log(f);
+                // console.log(JSON.stringify(f));
+                processedText = f;
+                break;
+                // return;
+            default:
+                break;
+        }
+        
+
+        if (processedText !== trimmedText) {
             // tabs vs spaces
             let tabStyle = editor.options.insertSpaces ? " " : "\t";
             if (!editor.selection.isEmpty) {
                 let start = editor.selection.start;
-                beautifiedJson = beautifiedJson.replace(
+                processedText = processedText.replace(
                     /(\n)/g,
                     "$1" + tabStyle.repeat(start.character)
                 );
             }
-            this.setText(editor, beautifiedJson);
+            this.setText(editor, processedText);
         }
     }
 
@@ -313,6 +337,6 @@ export class BeautifyJson {
             // Select the whole json
             editor.selection = new vscode.Selection(start, end);
         });
-        vscode.window.showInformationMessage("Beautify JSON completed");
+        vscode.window.showInformationMessage("There we go. Let's see how it works.");
     };
 }
